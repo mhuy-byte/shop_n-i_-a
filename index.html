@@ -130,10 +130,15 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <input type="text" id="new-prod-name" placeholder="Tên sản phẩm" required class="border p-2 text-sm rounded outline-none focus:border-emerald-500">
                         <input type="number" id="new-prod-price" placeholder="Giá tiền (VNĐ)" required class="border p-2 text-sm rounded outline-none focus:border-emerald-500">
-                        <input type="url" id="new-prod-image" placeholder="URL Hình ảnh sản phẩm" required class="border p-2 text-sm rounded outline-none focus:border-emerald-500">
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Chọn ảnh từ máy / Chụp ảnh từ điện thoại:</label>
+                            <input type="file" id="new-prod-image-file" accept="image/*" required class="border p-1.5 text-sm rounded outline-none focus:border-emerald-500 w-full bg-white">
+                        </div>
                         <input type="text" id="new-prod-category" placeholder="Danh mục (Ví dụ: Thời trang)" required class="border p-2 text-sm rounded outline-none focus:border-emerald-500">
                     </div>
-                    <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-emerald-700"><i class="fa-solid fa-plus"></i> Thêm Sản Phẩm</button>
+                    <button type="submit" id="add-btn" class="bg-emerald-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-emerald-700 transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Thêm Sản Phẩm
+                    </button>
                 </form>
 
                 <!-- Product List in Admin -->
@@ -326,27 +331,81 @@
             });
         }
 
-        function handleAddProduct(e) {
+        // Đọc và tự động tối ưu hóa kích thước ảnh bằng Canvas
+        function processImageFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 800; // Chiều rộng tối đa 800px để ảnh nhẹ và load nhanh
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > MAX_WIDTH) {
+                            height = Math.round((height * MAX_WIDTH) / width);
+                            width = MAX_WIDTH;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // Chuyển ảnh thành chuỗi mã hóa Base64 dạng JPEG
+                        resolve(canvas.toDataURL('image/jpeg', 0.8));
+                    };
+                    img.onerror = reject;
+                    img.src = event.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Xử lý thêm sản phẩm mới
+        async function handleAddProduct(e) {
             e.preventDefault();
             const name = document.getElementById("new-prod-name").value;
             const price = Number(document.getElementById("new-prod-price").value);
-            const image = document.getElementById("new-prod-image").value;
             const category = document.getElementById("new-prod-category").value;
+            const fileInput = document.getElementById("new-prod-image-file");
 
-            const newProd = {
-                id: Date.now(),
-                name,
-                price,
-                image,
-                category
-            };
+            if (!fileInput.files || !fileInput.files[0]) {
+                alert("Vui lòng chọn một file ảnh!");
+                return;
+            }
 
-            products.push(newProd);
-            saveProducts();
-            renderProducts();
-            renderAdminProductTable();
-            e.target.reset();
-            alert("Thêm sản phẩm thành công!");
+            const btn = document.getElementById("add-btn");
+            btn.disabled = true;
+            btn.innerText = "Đang xử lý ảnh...";
+
+            try {
+                // Xử lý và nén ảnh trực tiếp
+                const imageDataUrl = await processImageFile(fileInput.files[0]);
+
+                const newProd = {
+                    id: Date.now(),
+                    name,
+                    price,
+                    image: imageDataUrl,
+                    category
+                };
+
+                products.push(newProd);
+                saveProducts();
+                renderProducts();
+                renderAdminProductTable();
+                e.target.reset();
+                alert("Thêm sản phẩm thành công!");
+            } catch (error) {
+                alert("Lỗi khi tải ảnh lên!");
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-plus"></i> Thêm Sản Phẩm`;
+            }
         }
 
         function deleteProduct(id) {
@@ -358,7 +417,7 @@
             }
         }
 
-        // Run on load
+        // Chạy khi trang tải xong
         init();
     </script>
 </body>
