@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa Hàng Trực Tuyến - Shop Online</title>
+    <title>Shop Nội Địa - Cửa Hàng Trực Tuyến</title>
+    
+    <!-- FAVORITE ICON (Logo hiển thị trên Tab Trình duyệt) -->
+    <link rel="icon" type="image/png" href="logo.png">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons CDN -->
@@ -13,10 +17,11 @@
 
     <!-- HEADER / SITEMAP MENU -->
     <header class="bg-white shadow-md sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <!-- Brand Logo -->
-            <a href="#" class="text-2xl font-bold text-emerald-600 flex items-center gap-2">
-                <i class="fa-solid fa-bag-shopping"></i> MY-SHOP
+        <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+            <!-- Brand Logo (Thay thế MY-SHOP bằng Logo thực tế) -->
+            <a href="#" class="flex items-center gap-2">
+                <img src="logo.png" alt="Shop Nội Địa Logo" class="h-12 w-auto object-contain">
+                <span class="text-xl font-extrabold text-emerald-700 tracking-wide hidden sm:inline">SHOP NỘI ĐỊA</span>
             </a>
 
             <!-- Navigation Links -->
@@ -45,8 +50,11 @@
 
     <!-- HERO BANNER -->
     <section id="home" class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white py-12 px-4 text-center">
-        <h1 class="text-3xl md:text-5xl font-extrabold mb-3">Mua Sắm Trực Tuyến Tốt Nhất</h1>
-        <p class="text-emerald-100 max-w-xl mx-auto mb-6">Sản phẩm chất lượng cao, giá cả ưu đãi và giao hàng nhanh chóng.</p>
+        <div class="flex justify-center mb-3">
+            <img src="logo.png" alt="Shop Nội Địa" class="h-20 w-auto bg-white/10 p-2 rounded-xl backdrop-blur-sm shadow-inner border border-white/20">
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold mb-3">Shop Nội Địa - Mua Sắm Uy Tín</h1>
+        <p class="text-emerald-100 max-w-xl mx-auto mb-6">Chuyên cung cấp sản phẩm nội địa chất lượng cao, giá cả ưu đãi và giao hàng nhanh chóng.</p>
         <a href="#products" class="bg-white text-emerald-700 font-bold px-6 py-2.5 rounded-full shadow hover:bg-emerald-50 transition">Khám phá ngay</a>
     </section>
 
@@ -58,7 +66,7 @@
 
         <!-- Product Grid -->
         <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Dynamic Content populated via JavaScript -->
+            <!-- Dynamic Content -->
         </div>
     </main>
 
@@ -71,8 +79,12 @@
     </section>
 
     <!-- FOOTER -->
-    <footer id="contact" class="bg-gray-800 text-gray-300 py-6 text-center text-sm">
-        <p>&copy; 2026 MY-SHOP. Tất cả quyền được bảo lưu. Hotline: 1800 89 98</p>
+    <footer id="contact" class="bg-gray-800 text-gray-300 py-8 text-center text-sm">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-3">
+            <img src="logo.png" alt="Shop Nội Địa" class="h-12 w-auto filter brightness-110">
+            <p class="text-gray-400 text-xs">Chất lượng tạo niềm tin - Phục vụ tận tâm</p>
+            <p class="text-xs text-gray-500 mt-2">&copy; 2026 SHOP NỘI ĐỊA. Tất cả quyền được bảo lưu. Hotline: 1800 89 98</p>
+        </div>
     </footer>
 
     <!-- CART MODAL -->
@@ -83,7 +95,7 @@
                 <button onclick="toggleCartModal()" class="text-gray-500 hover:text-black text-xl">&times;</button>
             </div>
             <div id="cart-items" class="flex-grow overflow-y-auto py-4 space-y-4">
-                <!-- Cart items list -->
+                <!-- Cart items -->
             </div>
             <div class="border-t pt-4">
                 <div class="flex justify-between font-bold text-lg mb-4">
@@ -102,7 +114,10 @@
             
             <!-- Admin Login Form -->
             <div id="admin-login-view">
-                <h3 class="text-xl font-bold mb-4 text-center text-gray-800">Đăng Nhập Quản Trị Viên</h3>
+                <div class="text-center mb-4">
+                    <img src="logo.png" alt="Logo" class="h-14 mx-auto mb-2">
+                    <h3 class="text-xl font-bold text-gray-800">Đăng Nhập Quản Trị Viên</h3>
+                </div>
                 <form onsubmit="handleAdminLogin(event)" class="space-y-4 max-w-sm mx-auto">
                     <div>
                         <label class="block text-sm font-medium mb-1">Tài khoản</label>
@@ -164,7 +179,6 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Sample Initial Products
         const initialProducts = [
             { id: 1, name: "Áo Thun Cotton Cao Cấp", price: 250000, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400", category: "Thời trang" },
             { id: 2, name: "Giày Sneaker Thể Thao", price: 750000, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400", category: "Giày dép" },
@@ -172,29 +186,24 @@
             { id: 4, name: "Balo Du Lịch Chống Nước", price: 450000, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400", category: "Phụ kiện" }
         ];
 
-        // State variables
         let products = JSON.parse(localStorage.getItem("my_shop_products")) || initialProducts;
         let cart = [];
         let isAdminLoggedIn = false;
 
-        // Initialize App
         function init() {
             saveProducts();
             renderProducts();
             updateCartUI();
         }
 
-        // Save products to LocalStorage
         function saveProducts() {
             localStorage.setItem("my_shop_products", JSON.stringify(products));
         }
 
-        // Format currency to VND
         function formatVND(amount) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
         }
 
-        // Render Product Cards
         function renderProducts() {
             const grid = document.getElementById("product-grid");
             grid.innerHTML = "";
@@ -217,7 +226,6 @@
             });
         }
 
-        // Cart Operations
         function addToCart(id) {
             const product = products.find(p => p.id === id);
             const existItem = cart.find(item => item.id === id);
@@ -277,7 +285,6 @@
             toggleCartModal();
         }
 
-        // Admin Functionality
         function openAdminModal() {
             document.getElementById("admin-modal").classList.remove("hidden");
             if (isAdminLoggedIn) {
@@ -331,7 +338,6 @@
             });
         }
 
-        // Đọc và tự động tối ưu hóa kích thước ảnh bằng Canvas
         function processImageFile(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -339,7 +345,7 @@
                     const img = new Image();
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 800; // Chiều rộng tối đa 800px để ảnh nhẹ và load nhanh
+                        const MAX_WIDTH = 800;
                         let width = img.width;
                         let height = img.height;
 
@@ -352,8 +358,6 @@
                         canvas.height = height;
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
-                        
-                        // Chuyển ảnh thành chuỗi mã hóa Base64 dạng JPEG
                         resolve(canvas.toDataURL('image/jpeg', 0.8));
                     };
                     img.onerror = reject;
@@ -364,7 +368,6 @@
             });
         }
 
-        // Xử lý thêm sản phẩm mới
         async function handleAddProduct(e) {
             e.preventDefault();
             const name = document.getElementById("new-prod-name").value;
@@ -382,7 +385,6 @@
             btn.innerText = "Đang xử lý ảnh...";
 
             try {
-                // Xử lý và nén ảnh trực tiếp
                 const imageDataUrl = await processImageFile(fileInput.files[0]);
 
                 const newProd = {
@@ -417,7 +419,6 @@
             }
         }
 
-        // Chạy khi trang tải xong
         init();
     </script>
 </body>
