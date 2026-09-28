@@ -116,11 +116,6 @@
                     <i class="fa-solid fa-cart-shopping text-xl"></i>
                     <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
                 </button>
-
-                <!-- Admin Modal Trigger Button -->
-                <button onclick="openAdminModal()" class="bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-emerald-700 transition flex items-center gap-1">
-                    <i class="fa-solid fa-user-gear"></i> Admin
-                </button>
             </div>
         </div>
     </header>
@@ -161,6 +156,11 @@
             <img src="logo.png" alt="Shop Nội Địa" class="h-12 w-auto filter brightness-110">
             <p class="text-gray-400 text-xs">Chất lượng tạo niềm tin - Phục vụ tận tâm</p>
             <p class="text-xs text-gray-500 mt-2">&copy; 2026 SHOP NỘI ĐỊA. Tất cả quyền được bảo lưu. Hotline: 1800 89 98</p>
+            
+            <!-- Nút truy cập Quản trị viên kín đáo ở Footer -->
+            <button onclick="openAdminModal()" class="text-xs text-gray-600 hover:text-gray-400 transition flex items-center gap-1 mt-4">
+                <i class="fa-solid fa-lock text-[10px]"></i> Quản trị hệ thống
+            </button>
         </div>
     </footer>
 
@@ -197,15 +197,14 @@
                 </div>
                 <form onsubmit="handleAdminLogin(event)" class="space-y-4 max-w-sm mx-auto">
                     <div>
-                        <label class="block text-sm font-medium mb-1">Tài khoản</label>
-                        <input type="text" id="admin-username" required class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="admin">
+                        <label class="block text-sm font-medium mb-1">Tài khoản Admin</label>
+                        <input type="text" id="admin-username" required class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Nhập tên tài khoản">
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Mật khẩu</label>
-                        <input type="password" id="admin-password" required class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="123456">
+                        <input type="password" id="admin-password" required class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Nhập mật khẩu">
                     </div>
                     <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-bold hover:bg-emerald-700">Đăng Nhập</button>
-                    <p class="text-xs text-gray-500 text-center mt-2">(Mặc định: Tên đăng nhập: <b>admin</b> | Mật khẩu: <b>123456</b>)</p>
                 </form>
             </div>
 
@@ -213,7 +212,7 @@
             <div id="admin-dashboard-view" class="hidden">
                 <div class="flex justify-between items-center border-b pb-3 mb-4">
                     <h3 class="text-xl font-bold text-gray-800">Quản Lý Sản Phẩm</h3>
-                    <button onclick="adminLogout()" class="text-sm bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200">Đăng xuất</button>
+                    <button onclick="adminLogout()" class="text-sm bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200">Đăng xuất Admin</button>
                 </div>
 
                 <!-- Add Product Form -->
@@ -256,6 +255,12 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
+        // Cấu hình tài khoản Admin mặc định
+        const ADMIN_ACCOUNT = {
+            username: "admin",
+            password: "123"
+        };
+
         const initialProducts = [
             { id: 1, name: "Áo Thun Cotton Cao Cấp", price: 250000, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400", category: "Thời trang" },
             { id: 2, name: "Giày Sneaker Thể Thao", price: 750000, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400", category: "Giày dép" },
@@ -312,7 +317,6 @@
             const username = document.getElementById("reg-username").value.trim();
             const password = document.getElementById("reg-password").value;
 
-            // Kiểm tra trùng lặp
             const existUser = registeredUsers.find(u => u.email === email || u.username === username);
             if (existUser) {
                 alert("Gmail hoặc Tên đăng nhập này đã tồn tại!");
@@ -462,11 +466,11 @@
             const user = document.getElementById("admin-username").value;
             const pass = document.getElementById("admin-password").value;
 
-            if (user === "admin" && pass === "123456") {
+            if (user === ADMIN_ACCOUNT.username && pass === ADMIN_ACCOUNT.password) {
                 isAdminLoggedIn = true;
                 showAdminDashboard();
             } else {
-                alert("Tài khoản hoặc mật khẩu không đúng!");
+                alert("Tài khoản hoặc mật khẩu không chính xác!");
             }
         }
 
